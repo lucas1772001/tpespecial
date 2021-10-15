@@ -1,0 +1,1 @@
+<h2 class="title">Se a cerrado su sesion</h2>
