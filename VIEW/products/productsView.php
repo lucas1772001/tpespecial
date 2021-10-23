@@ -1,9 +1,9 @@
 <?php
 
-require_once 'controller.php';
+require_once './CONTROLLER/products/productsController.php';
 require_once 'libs/smarty-3.1.39/libs/Smarty.class.php';
 
-class viewPart{
+class productsView{
 
     private $smarty;
 
@@ -25,12 +25,13 @@ class viewPart{
         $this->smarty->display("../templates/footer.tpl");
     }
 
-    public function renderTableOfProducts($products){
+    public function renderTableOfProducts($products, $categories, $users){
         $this->header();
         $this->smarty->assign("products", $products);
+        $this->smarty->assign("categories", $categories);
+        $this->smarty->assign("users", $users);
         $this->smarty->display("../templates/tableProducts.tpl");
     }
-
 
     function renderListOfCategories($categories){
         $this->header();
@@ -38,20 +39,6 @@ class viewPart{
         $this->smarty->display("../templates/listCategories.tpl");
         $this->footer();
     }
-
-    function renderAdminAll($products, $categories){
-        $this->header();
-        $this->smarty->assign("products", $products);
-        $this->smarty->assign('categories', $categories);
-        $this->smarty->display("../templates/adminTable.tpl");
-        $this->smarty->display("../templates/insert.tpl");
-        $this->smarty->display("../templates/deleteProduct.tpl");
-        $this->smarty->display("../templates/updateProduct.tpl");
-        $this->smarty->display("../templates/addCategorie.tpl");
-        $this->smarty->display("../templates/deleteCategorie.tpl");
-        $this->smarty->display("../templates/listCategories.tpl");
-    }
-
 
     function renderByCategorie($products, $category){
         $this->header();

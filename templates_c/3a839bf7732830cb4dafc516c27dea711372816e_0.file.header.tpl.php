@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 3.1.39, created on 2021-10-14 19:24:33
+  from 'C:\xampp\htdocs\tpe2\templates\header.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.39',
+  'unifunc' => 'content_616867d138bd10_35166739',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '3a839bf7732830cb4dafc516c27dea711372816e' => 
+    array (
+      0 => 'C:\\xampp\\htdocs\\tpe2\\templates\\header.tpl',
+      1 => 1634232246,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_616867d138bd10_35166739 (Smarty_Internal_Template $_smarty_tpl) {
+?><!DOCTYPE html>
 <html lang="en">
 
     <head>
@@ -21,7 +44,6 @@
                     <li><a href="getAllProducts">Products</a></li>
                     <li><a href="getAllCategories">Categories</a></li>
                     <li><a href="contact">About</a></li>
-                    <li><a href="adminUsers">Users</a></li>
                 </ul>
             </nav>
             <a class="cta" href="user">Log In</a>
@@ -38,4 +60,5 @@
             </div>
         </div>
 
-    <div class="conteiner">
+    <div class="conteiner"><?php }
+}

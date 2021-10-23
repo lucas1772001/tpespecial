@@ -1,7 +1,8 @@
 <?php
 
-require_once './PRODUCTOS/controller.php';
-require_once './USUARIOS/userController.php';
+require_once './CONTROLLER/products/productsController.php';
+require_once './CONTROLLER/users/userController.php';
+require_once './CONTROLLER/categories/categoriesController.php';
 
 if(!empty($_GET['action'])){
     $action = $_GET['action'];
@@ -10,8 +11,9 @@ else{
     $action = 'home';
 }
 
-$controller = new controllerPart;
+$controller = new productsController;
 $userController = new usersController;
+$categoryController = new categoriesController;
 
 $params = explode('/', $action);
 
@@ -26,13 +28,13 @@ switch ($params[0]) {
         $controller -> askForInsert();
         break;
     case 'insertCategory':
-        $controller -> askForInsertCategory();
+        $categoryController -> askForInsertCategory();
         break;
     case 'deleteCategory':
-        $controller -> askForDeleteCategory();
+        $categoryController -> askForDeleteCategory();
         break;
     case 'getAllCategories':
-        $controller -> getAllCategories();
+        $categoryController -> getAllCategories();
         break;
     case 'ProductByCategorie':
         $controller -> ProductByCategorie();
@@ -61,8 +63,20 @@ switch ($params[0]) {
     case 'newUser':
         $userController -> renderRegister();
         break;
+    case 'adminUsers':
+        $userController -> checkedLoginForAdminUsers();
+        break;
+    case 'deleteUser':
+        $userController -> askForDeleteUser($params[1]);
+        break;
     case 'contact':
         $controller -> contact();
+        break;
+    case 'adminOn':
+        $userController -> turnOnPermitions($params[1]);
+        break;
+    case 'adminOff':
+        $userController -> turnOffPermitions($params[1]);
         break;
 
     default:

@@ -1,18 +1,18 @@
 <?php
 
-require_once 'view.php';
-require_once 'model.php';
-require_once './USUARIOS/userView.php';
-require_once './USUARIOS/userModel.php';
-require_once './USUARIOS/userController.php';
+require_once './VIEW/products/productsView.php';
+require_once './MODEL/products/productsModel.php';
+require_once './VIEW/users/userView.php';
+require_once './MODEL/users/userModel.php';
+require_once './CONTROLLER/users/userController.php';
 
-class controllerPart{
+class productsController{
     private $view;
     private $model;
 
     function __construct() {
-        $this->view= new viewPart;
-        $this->model= new modelPart;
+        $this->view= new productsView;
+        $this->model= new productsModel;
         $this->Userview= new UsersView;
         $this->Usermodel= new UsersModel;
         $this->userController= new usersController;
@@ -22,7 +22,7 @@ class controllerPart{
     }
     function getAllProducts(){
         $products = $this->model->getAllProductsList();
-        $this->view->renderTableOfProducts($products);
+        $this->view->renderTableOfProducts($products, null, null);
     }
 
     function askForInsert(){
@@ -37,13 +37,8 @@ class controllerPart{
         }
     }
 
-    function getAllCategories(){
-        $categories = $this->model->getAllCategoriesList();
-        $this->view->renderListOfCategories($categories);
-    }
-
     function ProductByCategorie(){
-        /*   $this->userController->checkedLogin();*/
+
         if(isset($_POST['categoria'])){
             $category = $_POST['categoria'];
 
@@ -52,26 +47,10 @@ class controllerPart{
         }
     }
     function askForDelete(){
-        /*$this->userController->checkedLogin();*/
+
         if(isset($_POST['producto_id'])){
             $productToDelete = $_POST['producto_id'];
             $this->model->deleteProductById($productToDelete);
-            header('Location:admin');
-        }
-    }
-
-    function askForInsertCategory(){
-        if(isset($_POST['categorias'])){
-            $category = $_POST['categorias'];
-            $this->model->insertCategory($category);
-            header('Location:admin');
-        }
-    }
-
-    function askForDeleteCategory(){
-        if(isset($_POST['categorias'])){
-            $categoryToDelete = $_POST['categorias'];
-            $this->model->deleteCategory($categoryToDelete);
             header('Location:admin');
         }
     }

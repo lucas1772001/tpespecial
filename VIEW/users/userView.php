@@ -23,7 +23,8 @@ class UsersView{
         }
         else{
             $this->header();
-            $this->smarty->display("../templates/registerError.tpl");
+            $this->smarty->assign('error', $error);
+            $this->smarty->display("../templates/error.tpl");
             $this->smarty->display("../templates/register.tpl");
             $this->footer();
         }
@@ -38,8 +39,16 @@ class UsersView{
             $this->header();
             $this->smarty->display("../templates/logIn.tpl");
             $this->footer();
-        }else{
+        }else if($error == 1){
             $this->header();
+            $this->smarty->assign('error', $error);
+            $this->smarty->display("../templates/error.tpl");
+            $this->smarty->display("../templates/logIn.tpl");
+            $this->footer();
+        }
+        else if($error==2){
+            $this->header();
+            $this->smarty->assign('error', $error);
             $this->smarty->display("../templates/error.tpl");
             $this->smarty->display("../templates/logIn.tpl");
             $this->footer();
@@ -51,5 +60,10 @@ class UsersView{
         $this->smarty->display("../templates/logOut.tpl");
         $this->footer();
     }
-
+    function renderListOfUsers($users){
+        $this->header();
+        $this->smarty->assign('users', $users);
+        $this->smarty->display("../templates/listOfUsers.tpl");
+        $this->footer();
+    }
 }

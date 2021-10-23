@@ -1,21 +1,24 @@
 <?php
 
-require_once './PRODUCTOS/view.php';
-require_once 'userModel.php';
-require_once 'userView.php';
-require_once './PRODUCTOS/controller.php';
+require_once './VIEW/products/productsView.php';
+require_once './MODEL/users/userModel.php';
+require_once './VIEW/users/userView.php';
+require_once './CONTROLLER/products/productsController.php';
+require_once './MODEL/categories/categoriesModel.php';
 
 class usersController{
     private $Usermodel;
     private $Userview;
     private $model;
     private $view;
+    private $categoryModel;
 
     function __construct(){
         $this->Userview = new UsersView;
         $this->Usermodel = new UsersModel;
-        $this->view = new viewPart;
-        $this->model = new modelPart;
+        $this->view = new productsView;
+        $this->model = new productsModel;
+        $this->categoryModel = new categoriesModel;
     }
 
     function askForRegister(){
@@ -24,18 +27,16 @@ class usersController{
             $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
             $users = $this->Usermodel->checkUSer();
             foreach($users as $user){}
-                if($Newuser != $user->email){
+                if($Newuser == $user->email){
+                    $error = 3;
+                    $this->Userview->renderFormRegister($error);
+                }
+                else{
                     $this->Usermodel->registerNewUser($Newuser, $password);
                     header('Location:home');
                 }
-                else{
-                    $error = 1;
-                    $this->Userview->renderFormRegister($error);
-                }
-            }
-        }
-    
-
+             }
+           }
     function askForLogin(){
         if(!empty($_POST['email'])&& !empty($_POST['password'])){
             $user = $_POST['email'];
@@ -59,36 +60,61 @@ class usersController{
                 $error = 1;
                 $this->Userview->renderFormLogIn($error);
             }
+        }
     }
-    }
-
     function confirmedAdminLog(){
             $products = $this->model->getAllProductsList();
-            $categories = $this->model->getAllCategoriesList();
-            $this->view->renderAdminAll($products, $categories);
+            $categories = $this->categoryModel->getAllCategoriesList();
+            $users = $this->Usermodel->getAllUsers();
+            $this->view->renderTableOfProducts($products, $categories, $users);
         }
-
-
     function checkedLogin(){
         session_start();
-        if(isset($_SESSION['rol'])){
+        if(isset($_SESSION['rol'])=='admin'){
             $this->confirmedAdminLog();
         }else{
-            header('Location:user');
+            $error = 2;
+            $this->Userview->renderFormLogIn($error);
         }
     }
-
+    function checkedLoginForAdminUsers(){
+        session_start();
+        if(isset($_SESSION['rol'])=='admin'){
+            $this->askForAllUsers();
+        }else{
+            $error = 2;
+            $this->Userview->renderFormLogIn($error);
+        }
+    }
     function logOut(){
         session_start();
         session_destroy();
         $this->Userview->renderLogOut();
     }
-
     function renderLogin(){
         $this->Userview->renderFormLogIn();
     }
-
     function renderRegister(){
         $this->Userview->renderFormRegister();
     }
+    function askForAllUsers(){
+        $users = $this->Usermodel->getAllUsers();
+        $this->Userview->renderListOfUsers($users);
+    }
+    function askForDeleteUser($param){
+        $user = $param;
+        $this->Usermodel->deleteUser($user);
+        header('Location:admin');
+    }
+    function turnOnPermitions($param){
+        $rol = 'admin';
+        $this->Usermodel->takePermition($rol, $param);
+        
+    }
+    function turnOffPermitions($param){
+        $rol = 'No rol';
+        $this->Usermodel->takeOffPermition($rol, $param);
+     
+    }
 }
+
