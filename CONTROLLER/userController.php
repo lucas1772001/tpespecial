@@ -104,19 +104,20 @@ class usersController{
     function askForDeleteUser($param){
         $user = $param;
         $this->Usermodel->deleteUser($user);
-        header('Location:admin');
+        header('Location:/tpParte2/adminUsers');
     }
     function turnOnPermitions($param){
         if(!empty($param)){
             $rol = 'admin';
             $this->Usermodel->takePermition($rol, $param);
-            header('Location:adminUser');
+            header('Location:/tpParte2/adminUsers');
         }
     }
     function turnOffPermitions($param){
         if(!empty($param)){
             $rol = 'No-admin';
             $this->Usermodel->takeOffPermition($rol, $param);
+            header('Location:/tpParte2/adminUsers');
         }
     }
 }

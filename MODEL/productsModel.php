@@ -13,6 +13,12 @@ class productsModel{
         $response = $consult-> fetchAll(PDO::FETCH_OBJ);
         return $response;
     }
+    function getProduct($productId){
+        $consult = $this-> db-> prepare ('SELECT * FROM productos WHERE producto_id=?');
+        $consult->execute(array($productId));
+        $response = $consult-> fetch(PDO::FETCH_OBJ);
+        return $response;
+    }
     function insertProduct($producto, $categoria, $precio, $descripcion){
         $consult = $this-> db-> prepare ('INSERT INTO productos (producto, categoria, precio, descripcion) VALUES (?,?,?,?)');
         $consult->execute(array($producto, $categoria, $precio, $descripcion));
